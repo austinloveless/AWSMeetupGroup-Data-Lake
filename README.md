@@ -63,7 +63,11 @@ To Build the glue environment we are using the aws-sdk. Look in the src/glue-bui
 
 Note: Run these commands after you've installed nodejs
 
-Start by creating the raw crawlers.
+Start by creating the Glue Database
+
+- `node create_database.js`
+
+Then by creating the raw crawlers.
 
 - `node create_raw_crawlers.js`
 

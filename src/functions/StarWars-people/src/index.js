@@ -22,7 +22,7 @@ const putRawS3Data = async (data) => {
   const params = {
     Body: JSON.stringify(data),
     Bucket: process.env.s3Bucket,
-    Key: `raw/starwars/people/${timestamp}`,
+    Key: `raw/starwars/raw_people/${timestamp}`,
   };
   try {
     const s3Object = await s3.putObject(params).promise();

@@ -47,7 +47,7 @@ Resources:
         InvocationLevel:
           Type: Schedule
           Properties:
-            Schedule: cron(0 12 * * ? *)
+            Schedule: cron(0/10 * ? * * *)
 
   lambdaFunctionPeople:
     Type: AWS::Serverless::Function
@@ -69,7 +69,7 @@ Resources:
         InvocationLevel:
           Type: Schedule
           Properties:
-            Schedule: cron(0 12 * * ? *)
+            Schedule: cron(0/10 * ? * * *)
 
   lambdaFunctionStarships:
     Type: AWS::Serverless::Function
@@ -91,7 +91,7 @@ Resources:
         InvocationLevel:
           Type: Schedule
           Properties:
-            Schedule: cron(0 12 * * ? *)
+            Schedule: cron(0/10 * ? * * *)
 
   lambdaExecutionRole:
     Description: Creating service role in IAM for AWS Lambda
@@ -108,6 +108,21 @@ Resources:
       ManagedPolicyArns:
         - "arn:aws:iam::aws:policy/AWSLambdaExecute"
         - "arn:aws:iam::aws:policy/AmazonS3FullAccess"
+
+  glueRole:
+    Description: Creating service role in IAM for AWS Lambda
+    Type: AWS::IAM::Role
+    Properties:
+      RoleName: !Sub "glueRole-${pEnvrionment}"
+      AssumeRolePolicyDocument:
+        Statement:
+          - Effect: Allow
+            Principal:
+              Service: [lambda.amazonaws.com]
+            Action: sts:AssumeRole
+      Path: /
+      ManagedPolicyArns:
+        - "arn:aws:iam::aws:policy/AWSGlueConsoleFullAccess"
 
 Outputs:
   Version:
