@@ -1,0 +1,115 @@
+AWSTemplateFormatVersion: 2010-09-09
+Transform: AWS::Serverless-2016-10-31
+
+Parameters:
+  pEnvrionment:
+    Type: String
+    Description: The name for a project pipeline stage, such as staging or production, for which resources are provisioned and deployed.
+    Default: production
+
+  pDataLakeBucketName:
+    Type: String
+    Default: awsmeetupgroup-data-lake
+
+Resources:
+  s3Bucket:
+    Type: AWS::S3::Bucket
+    DeletionPolicy: Retain
+    Properties:
+      BucketName: !Sub ${pDataLakeBucketName}-${pEnvrionment}
+
+  axios:
+    Type: AWS::Serverless::LayerVersion
+    Properties:
+      LayerName: Axios
+      Description: Axios Dependency
+      ContentUri: ./layers/dependencies/axios
+      CompatibleRuntimes:
+        - nodejs12.x
+
+  lambdaFunctionPlanets:
+    Type: AWS::Serverless::Function
+    Properties:
+      CodeUri: ./functions/StarWars-planets/src
+      Handler: index.handler
+      Runtime: nodejs12.x
+      Timeout: 10
+      MemorySize: 512
+      Layers:
+        - !Ref axios
+      FunctionName: !Sub "star-wars-planets-${pEnvrionment}"
+      Environment:
+        Variables:
+          NODE_ENV: !Ref pEnvrionment
+          s3Bucket: !Ref s3Bucket
+      Role: !GetAtt lambdaExecutionRole.Arn
+      Events:
+        InvocationLevel:
+          Type: Schedule
+          Properties:
+            Schedule: cron(0 12 * * ? *)
+
+  lambdaFunctionPeople:
+    Type: AWS::Serverless::Function
+    Properties:
+      CodeUri: ./functions/StarWars-people/src
+      Handler: index.handler
+      Runtime: nodejs12.x
+      Timeout: 10
+      MemorySize: 512
+      Layers:
+        - !Ref axios
+      FunctionName: !Sub "star-wars-people-${pEnvrionment}"
+      Environment:
+        Variables:
+          NODE_ENV: !Ref pEnvrionment
+          s3Bucket: !Ref s3Bucket
+      Role: !GetAtt lambdaExecutionRole.Arn
+      Events:
+        InvocationLevel:
+          Type: Schedule
+          Properties:
+            Schedule: cron(0 12 * * ? *)
+
+  lambdaFunctionStarships:
+    Type: AWS::Serverless::Function
+    Properties:
+      CodeUri: ./functions/StarWars-starships/src
+      Handler: index.handler
+      Runtime: nodejs12.x
+      Timeout: 10
+      MemorySize: 512
+      Layers:
+        - !Ref axios
+      FunctionName: !Sub "star-wars-starships-${pEnvrionment}"
+      Environment:
+        Variables:
+          NODE_ENV: !Ref pEnvrionment
+          s3Bucket: !Ref s3Bucket
+      Role: !GetAtt lambdaExecutionRole.Arn
+      Events:
+        InvocationLevel:
+          Type: Schedule
+          Properties:
+            Schedule: cron(0 12 * * ? *)
+
+  lambdaExecutionRole:
+    Description: Creating service role in IAM for AWS Lambda
+    Type: AWS::IAM::Role
+    Properties:
+      RoleName: !Sub "lambdaExecutionRole-${pEnvrionment}"
+      AssumeRolePolicyDocument:
+        Statement:
+          - Effect: Allow
+            Principal:
+              Service: [lambda.amazonaws.com]
+            Action: sts:AssumeRole
+      Path: /
+      ManagedPolicyArns:
+        - "arn:aws:iam::aws:policy/AWSLambdaExecute"
+        - "arn:aws:iam::aws:policy/AmazonS3FullAccess"
+
+Outputs:
+  Version:
+    Description: Template Version
+    Value: datalake-0.1
