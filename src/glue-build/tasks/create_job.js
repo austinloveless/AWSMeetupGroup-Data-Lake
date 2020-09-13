@@ -1,4 +1,4 @@
-const AWS = require("../../functions/StarWars-starships/src/node_modules/aws-sdk");
+const AWS = require("aws-sdk");
 const glue = new AWS.Glue({ region: "us-east-1" });
 const config = require("../config");
 const {
