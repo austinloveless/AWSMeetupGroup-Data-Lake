@@ -17,7 +17,13 @@
 
 ## What we're building.
 
-This application is used to build a StarWars Data Lake using AWS Lambda, S3, and AWS Glue.
+This application is used to build a StarWars Data Lake using AWS Lambda, S3, and AWS Glue. We're using the [starwars api](https://swapi.dev/) to build a Data Lake.
+
+We have Lambda functions that call the StarWars API every 10 minutes to pick up any changes to the data.
+
+The data comes in as JSON which is expensive to query in AWS Athena. To reduce cost we are using AWS Glue to run an ETL job and convert the data into Parquet. Parquet data is more efficent and can be up to 98% cheaper than JSON data.
+
+This is ran once a day at 12pm everyday by a Glue Workflow so we have consistently parquet data as the new data comes in.
 
 ## What's Here
 
