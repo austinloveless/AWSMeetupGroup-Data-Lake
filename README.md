@@ -2,7 +2,7 @@
 
 ---
 
-## Prerequisites
+## Prerequisites:
 
 - Create an [AWS Account](https://aws.amazon.com/)
 - Create a [GitHub Account](https://github.com/)
@@ -15,7 +15,7 @@
 
 - Configure an [AWS Profile](https://docs.aws.amazon.com/cli/latest/userguide/cli-configure-quickstart.html)
 
-## What we're building.
+## What we're building:
 
 This application is used to build a StarWars Data Lake using AWS Lambda, S3, and AWS Glue. We're using the [starwars api](https://swapi.dev/) to build a Data Lake.
 
@@ -25,7 +25,7 @@ The data comes in as JSON which is expensive to query in AWS Athena. To reduce c
 
 This is ran once a day at 12pm everyday by a Glue Workflow so we have consistently parquet data as the new data comes in.
 
-## What's Here
+## What's Here:
 
 This project includes:
 
