@@ -7,15 +7,16 @@ const {
 
 CRAWLER_DATA.map((data) => {
   const params = {
-    Name: data.transformed_name /* required */,
+    Name: data.raw_name /* required */,
     Role: IAM_ROLE /* required */,
     Targets: {
       S3Targets: [
         {
-          Path: data.transformed__path,
+          Path: data.raw_path,
         },
       ],
     },
+    Classifiers: ["json_classifier"],
     DatabaseName: DATABASE_NAME,
   };
   glue.createCrawler(params, function (err, data) {

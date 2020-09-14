@@ -22,25 +22,8 @@ const putRawS3Data = async (data) => {
   const params = {
     Body: JSON.stringify(data),
     Bucket: process.env.s3Bucket,
-    Key: `raw/starwars/raw_people/${timestamp}.json`,
+    Key: `raw/starwars/raw_people/${timestamp}`,
   };
-  try {
-    await s3.putObject(params).promise();
-    return transformedData(data[0]);
-  } catch (error) {
-    return errorResponse(500, error);
-  }
-};
-
-// Goes one layer into the array for the glue crawler
-const transformedData = async (data) => {
-  const timestamp = Date.now();
-  const params = {
-    Body: JSON.stringify(data),
-    Bucket: process.env.s3Bucket,
-    Key: `transformed/starwars/transformed_people/${timestamp}.json`,
-  };
-
   try {
     const s3Object = await s3.putObject(params).promise();
     return successResponse(s3Object);

@@ -123,8 +123,7 @@ Resources:
       Path: /
       ManagedPolicyArns:
         - "arn:aws:iam::aws:policy/AWSGlueConsoleFullAccess"
-        - "arn:aws:iam::aws:policy/AWSGlueServiceRole"
-
+        - "arn:aws:iam::aws:policy/service-role/AWSGlueServiceRole"
 Outputs:
   Version:
     Description: Template Version

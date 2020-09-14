@@ -69,6 +69,10 @@ Start by creating the Glue Database change directories into src/glue-build/tasks
 
 Then by creating the raw crawlers.
 
+First you need to create a json classifier for the crawler to get the data properly.
+
+- `node create_json_classifier.js`
+
 - `node create_raw_crawlers.js`
 
 Then run the raw crawler.

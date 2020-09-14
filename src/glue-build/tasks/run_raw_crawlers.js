@@ -7,7 +7,7 @@ const {
 
 CRAWLER_DATA.map((data) => {
   const params = {
-    Name: data.transformed_name /* required */,
+    Name: data.raw_name /* required */,
   };
   glue.startCrawler(params, function (err, data) {
     if (err) console.log(err, err.stack);
