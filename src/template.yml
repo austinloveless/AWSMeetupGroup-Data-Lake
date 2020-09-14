@@ -9,14 +9,14 @@ Parameters:
 
   pDataLakeBucketName:
     Type: String
-    Default: awsmeetupgroup-data-lake
+    Default: starwars-data-lake
 
 Resources:
   s3Bucket:
     Type: AWS::S3::Bucket
     DeletionPolicy: Retain
     Properties:
-      BucketName: !Sub ${pDataLakeBucketName}-${pEnvrionment}
+      BucketName: !Sub ${AWS::StackName}-${pDataLakeBucketName}-${pEnvrionment}
 
   axios:
     Type: AWS::Serverless::LayerVersion
@@ -118,11 +118,12 @@ Resources:
         Statement:
           - Effect: Allow
             Principal:
-              Service: [lambda.amazonaws.com]
+              Service: [glue.amazonaws.com, s3.amazonaws.com]
             Action: sts:AssumeRole
       Path: /
       ManagedPolicyArns:
         - "arn:aws:iam::aws:policy/AWSGlueConsoleFullAccess"
+        - "arn:aws:iam::aws:policy/AWSGlueServiceRole"
 
 Outputs:
   Version:

@@ -1,0 +1,42 @@
+import sys
+from awsglue.transforms import *
+from awsglue.utils import getResolvedOptions
+from pyspark.context import SparkContext
+from awsglue.context import GlueContext
+from awsglue.job import Job
+
+## @params: [JOB_NAME]
+args = getResolvedOptions(sys.argv, ['JOB_NAME'])
+
+sc = SparkContext()
+glueContext = GlueContext(sc)
+spark = glueContext.spark_session
+job = Job(glueContext)
+job.init(args['JOB_NAME'], args)
+
+## parquet_people
+
+datasource0 = glueContext.create_dynamic_frame.from_catalog(database = "starwars-database", table_name = "transformed_people", transformation_ctx = "datasource0")
+applymapping1 = ApplyMapping.apply(frame = datasource0, mappings = [("name", "string", "name", "string"), ("height", "string", "height", "string"), ("mass", "string", "mass", "string"), ("hair_color", "string", "hair_color", "string"), ("skin_color", "string", "skin_color", "string"), ("eye_color", "string", "eye_color", "string"), ("birth_year", "string", "birth_year", "string"), ("gender", "string", "gender", "string"), ("homeworld", "string", "homeworld", "string")], transformation_ctx = "applymapping1")
+resolvechoice2 = ResolveChoice.apply(frame = applymapping1, choice = "make_struct", transformation_ctx = "resolvechoice2")
+dropnullfields3 = DropNullFields.apply(frame = resolvechoice2, transformation_ctx = "dropnullfields3")
+datasink4 = glueContext.write_dynamic_frame.from_options(frame = dropnullfields3, connection_type = "s3", connection_options = {"path": "s3://starwars-data-lake-production/parquet/starwars/parquet_people/"}, format = "parquet", transformation_ctx = "datasink4")
+
+## parquet_planets
+
+datasource1 = glueContext.create_dynamic_frame.from_catalog(database = "starwars-database", table_name = "transformed_planets", transformation_ctx = "datasource1")
+applymapping1 = ApplyMapping.apply(frame = datasource1, mappings = [("name", "string", "name", "string"), ("rotation_period", "string", "rotation_period", "string"), ("orbital_period", "string", "orbital_period", "string"), ("diameter", "string", "diameter", "string"), ("climate", "string", "climate", "string"), ("gravity", "string", "gravity", "string"), ("terrain", "string", "terrain", "string"), ("surface_water", "string", "surface_water", "string"), ("population", "string", "population", "string")], transformation_ctx = "applymapping1")
+resolvechoice2 = ResolveChoice.apply(frame = applymapping1, choice = "make_struct", transformation_ctx = "resolvechoice2")
+dropnullfields3 = DropNullFields.apply(frame = resolvechoice2, transformation_ctx = "dropnullfields3")
+datasink4 = glueContext.write_dynamic_frame.from_options(frame = dropnullfields3, connection_type = "s3", connection_options = {"path": "s3://starwars-data-lake-production/parquet/starwars/parquet_planets/"}, format = "parquet", transformation_ctx = "datasink4")
+
+## parquet_starships
+
+datasource2 = glueContext.create_dynamic_frame.from_catalog(database = "starwars-database", table_name = "transformed_planets", transformation_ctx = "datasource2")
+applymapping1 = ApplyMapping.apply(frame = datasource2, mappings = [("name", "string", "name", "string"), ("rotation_period", "string", "rotation_period", "string"), ("orbital_period", "string", "orbital_period", "string"), ("diameter", "string", "diameter", "string"), ("climate", "string", "climate", "string"), ("gravity", "string", "gravity", "string"), ("terrain", "string", "terrain", "string"), ("surface_water", "string", "surface_water", "string"), ("population", "string", "population", "string")], transformation_ctx = "applymapping1")
+resolvechoice2 = ResolveChoice.apply(frame = applymapping1, choice = "make_struct", transformation_ctx = "resolvechoice2")
+dropnullfields3 = DropNullFields.apply(frame = resolvechoice2, transformation_ctx = "dropnullfields3")
+datasink4 = glueContext.write_dynamic_frame.from_options(frame = dropnullfields3, connection_type = "s3", connection_options = {"path": "s3://starwars-data-lake-production/parquet/starwars/parquet_planets/"}, format = "parquet", transformation_ctx = "datasink4")
+
+
+job.commit()

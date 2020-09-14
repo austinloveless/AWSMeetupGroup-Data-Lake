@@ -13,7 +13,7 @@ const params = {
   },
   Name: JOB_NAME /* required */,
   Role: IAM_ROLE /* required */,
-  MaxCapacity: "20",
+  MaxCapacity: "10",
 };
 
 glue.createJob(params, function (err, data) {

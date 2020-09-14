@@ -63,7 +63,7 @@ To Build the glue environment we are using the aws-sdk. Look in the src/glue-bui
 
 Note: Run these commands after you've installed nodejs
 
-Start by creating the Glue Database
+Start by creating the Glue Database change directories into src/glue-build/tasks/
 
 - `node create_database.js`
 
@@ -75,7 +75,9 @@ Then run the raw crawler.
 
 - `node run_raw_crawler.js`
 
-Next we create the ETL Job.
+Next we create the ETL Job. To do that you need to upload the etl script from src/glue-build/script/
+
+- `aws s3api put-object --bucket <YOUR BUCKET> --key script/starwars_raw_to_parquet_script`
 
 - `node create_job.js`
 

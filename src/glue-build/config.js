@@ -1,36 +1,36 @@
 const config = {
-  DATABASE_NAME: "awsmeetupgroup-database",
+  DATABASE_NAME: "starwars-database",
   IAM_ROLE: "glueRole-production",
-  JOB_NAME: "awsmeetupgroup_raw_to_parquet",
+  JOB_NAME: "starwars_raw_to_parquet",
   SCRIPT_LOCATION:
-    "s3://awsmeetupgroup-data-lake-production/script/awsmeetupgroup_raw_to_parquet_script",
+    "s3://starwars-data-lake-production/script/starwars_raw_to_parquet_script",
   CRAWLER_DATA: [
     // People
     {
-      raw_name: "awsmeetupgroup_raw_people",
-      raw_path:
-        "s3://awsmeetupgroup-data-lake-production/raw/starwars/raw_people/",
-      parquet_name: "awsmeetupgroup_parquet_people",
+      transformed_name: "starwars_transformed_people",
+      transformed__path:
+        "s3://starwars-data-lake-production/transformed/starwars/transformed_people/",
+      parquet_name: "starwars_parquet_people",
       parquet_path:
-        "s3://awsmeetupgroup-data-lake-production/parquet/starwars/parquet_people",
+        "s3://starwars-data-lake-production/parquet/starwars/parquet_people",
     },
     // Starships
     {
-      raw_name: "awsmeetupgroup_raw_starships",
-      raw_path:
-        "s3://awsmeetupgroup-data-lake-production/raw/starwars/raw_starships/",
-      parquet_name: "awsmeetupgroup_parquet_starships",
+      transformed_name: "starwars_transformed_starships",
+      transformed__path:
+        "s3://starwars-data-lake-production/transformed/starwars/transformed_starships/",
+      parquet_name: "starwars_parquet_starships",
       parquet_path:
-        "s3://awsmeetupgroup-data-lake-production/parquet/starwars/parquet_starships",
+        "s3://starwars-data-lake-production/parquet/starwars/parquet_starships",
     },
     // Planets
     {
-      raw_name: "awsmeetupgroup_raw_planets",
-      raw_path:
-        "s3://awsmeetupgroup-data-lake-production/raw/starwars/raw_planets/",
-      parquet_name: "awsmeetupgroup_parquet_planets",
+      transformed_name: "starwars_transformed_planets",
+      transformed__path:
+        "s3://starwars-data-lake-production/transformed/starwars/transformed_planets/",
+      parquet_name: "starwars_parquet_planets",
       parquet_path:
-        "s3://awsmeetupgroup-data-lake-production/parquet/starwars/parquet_planets/",
+        "s3://starwars-data-lake-production/parquet/starwars/parquet_planets/",
     },
   ],
 };
