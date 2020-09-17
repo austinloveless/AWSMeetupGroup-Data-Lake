@@ -2,6 +2,8 @@
 
 ---
 
+![GlueDiagram](GlueDiagram.png)
+
 ## Prerequisites:
 
 - Create an [AWS Account](https://aws.amazon.com/)
